@@ -767,7 +767,7 @@ const TitlePage: Page = () => (
           color: INK,
         }}
       >
-        Faldi
+        Aldi
       </div>
     </div>
     <div className="gb-pop" style={{ ...d(60), position: 'absolute', right: 120, top: 96, bottom: 136 }}>
@@ -838,7 +838,7 @@ const WhoIAm: Page = () => (
     <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
       <div>
         <H size={200} delay={80}>
-          I'm Faldi.
+          I'm Aldi.
         </H>
         <Lede size={46} delay={260} style={{ marginTop: 24 }}>
           Naufaldi Rafif Satriya
@@ -866,7 +866,7 @@ const WhoIAm: Page = () => (
         label="Community"
         value={
           <>
-            Cursor &amp; Codex
+            SpaceXAI
             <br />
             Ambassador
           </>
@@ -2126,7 +2126,7 @@ export const notes: (string | undefined)[] = [
 Introduce yourself lightly, then move.`,
 
   `Keep this under a minute.
-"I'm Faldi. Senior SWE at Sukanda Djaya, Diamond Cold Storage. Cursor and Codex Ambassador. Bekasi and Jakarta."
+"I'm Aldi. Senior SWE at Sukanda Djaya, Diamond Cold Storage. SpaceXAI Ambassador. Bekasi and Jakarta."
 No CV dump.`,
 
   `Walk the four rows with the arrow key.
