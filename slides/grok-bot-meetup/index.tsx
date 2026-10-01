@@ -69,6 +69,41 @@ const EYE_A_PATH =
 const EYE_B_PATH =
   'M179.77 59.76L182.04 60.05L184.10 60.75L185.92 61.77L187.55 63.03L188.95 64.50L190.10 66.16L191.07 67.95L191.90 69.82L192.67 71.74L193.41 73.66L194.13 75.60L194.80 77.56L195.42 79.55L196.02 81.54L196.56 83.57L197.06 85.61L197.50 87.67L197.90 89.77L198.06 91.94L197.82 94.21L197.15 96.51L195.85 98.72L193.75 100.38L191.30 101.01L189.00 100.81L186.99 100.03L185.30 98.85L183.91 97.38L182.84 95.66L182.05 93.76L181.48 91.76L181.00 89.71L180.53 87.64L180.02 85.60L179.48 83.58L178.89 81.58L178.26 79.60L177.60 77.62L176.90 75.68L176.15 73.76L175.36 71.86L174.53 69.98L173.78 68.06L173.41 65.97L173.71 63.70L175.05 61.53L177.32 60.14Z';
 
+type MarkShape = 'circle' | 'blob' | 'squircle' | 'capsule' | 'wedge' | 'hex' | 'cloud' | 'teardrop';
+type MarkMotion = 'blink' | 'look' | 'bounce' | 'wink' | 'scan' | 'pulse';
+
+const BOT_PALETTE = {
+  black: '#101014',
+  brown: '#8B5E3C',
+  red: '#E85D4C',
+  orange: '#F08A3A',
+  yellow: '#E8B84A',
+  green: '#5BAE6A',
+  teal: '#2FA8A0',
+  blue: '#3B7DED',
+  violet: '#8B7AE8',
+  magenta: '#E85AA8',
+  gray: '#8A8A90',
+} as const;
+
+/** Picker-style heads in the same ~228.541 brand viewBox. */
+const SHAPE_PATHS: Record<MarkShape, string> = {
+  circle: HEAD_PATH,
+  blob:
+    'M120 6C158 10 196 34 210 72C224 110 212 152 188 182C164 212 124 226 86 218C48 210 18 184 10 146C2 108 22 72 50 46C78 20 96 4 120 6Z',
+  squircle:
+    'M64 16H164.5C191 16 212.5 37.5 212.5 64V164.5C212.5 191 191 212.5 164.5 212.5H64C37.5 212.5 16 191 16 164.5V64C16 37.5 37.5 16 64 16Z',
+  capsule:
+    'M60 42H168.5A72.27 72.27 0 0 1 168.5 186.54H60A72.27 72.27 0 0 1 60 42Z',
+  wedge:
+    'M114.27 14C128 14 142 28 158 56L206 168C214 184 204 204 186 208H42.5C24.5 204 14.5 184 22.5 168L70.5 56C86.5 28 100.5 14 114.27 14Z',
+  hex: 'M114.27 12L204.5 64.5V164L114.27 216.5L24 164V64.5Z',
+  cloud:
+    'M52 150C30 150 14 132 14 110C14 90 28 74 48 70C52 42 74 22 102 22C124 22 142 34 150 54C156 48 166 46 176 46C196 46 212 62 212 82C212 88 210 92 208 96C218 104 224 116 224 132C224 154 206 170 184 170H64C56 170 52 162 52 154V150Z',
+  teardrop:
+    'M114.27 10C150 48 198 98 198 148C198 194 160 220 114.27 220C68.5 220 30.5 194 30.5 148C30.5 98 78.5 48 114.27 10Z',
+};
+
 const CSS = `
 @font-face { font-family: "Universal Sans Display"; src: url(${usDisplay400}) format("woff2"); font-weight: 400; font-display: swap; }
 @font-face { font-family: "Universal Sans Display"; src: url(${usDisplay550}) format("woff2"); font-weight: 550 900; font-display: swap; }
@@ -112,9 +147,33 @@ const CSS = `
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-10px); }
 }
+@keyframes gb-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+@keyframes gb-look-wide {
+  0%, 10% { transform: translate(0, 0); }
+  22%, 36% { transform: translate(12px, -8px); }
+  48%, 62% { transform: translate(-11px, 7px); }
+  74%, 100% { transform: translate(0, 0); }
+}
+@keyframes gb-wink {
+  0%, 38%, 52%, 100% { transform: scaleY(1); }
+  45% { transform: scaleY(0.05); }
+}
+@keyframes gb-scan {
+  0%, 100% { transform: translate(0, 0); }
+  30% { transform: translate(11px, 0); }
+  70% { transform: translate(-11px, 0); }
+}
+@keyframes gb-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.055); }
+}
 @keyframes gb-strike { from { transform: scaleX(0) rotate(-4deg); } to { transform: scaleX(1) rotate(-4deg); } }
 
 .gb-eye { transform-box: fill-box; transform-origin: center; }
+.gb-head { transform-box: fill-box; transform-origin: center; }
 .gb-on .gb-rise { animation: gb-rise 0.75s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0ms) both; }
 .gb-on .gb-fade { animation: gb-fade 0.6s ${EASE_OUT} var(--d, 0ms) both; }
 .gb-on .gb-pop { animation: gb-pop 0.85s cubic-bezier(0.2, 0.9, 0.3, 1) var(--d, 0ms) both; }
@@ -129,6 +188,14 @@ const CSS = `
 .gb-on .gb-glance { animation: gb-glance 2.4s cubic-bezier(0.3, 0, 0.2, 1) 0.2s both; }
 .gb-on .gb-eye { animation: gb-blink 5.6s ease-in-out var(--bd, 1.6s) infinite; }
 .gb-on .gb-wake .gb-eye { animation: gb-wake 0.9s cubic-bezier(0.3, 1.4, 0.5, 1) 0.6s both, gb-blink 5.6s ease-in-out 3.2s infinite; }
+.gb-on .gb-motion-look .gb-idle { animation: gb-look-wide 7.5s ease-in-out var(--ld, 1s) infinite; }
+.gb-on .gb-motion-bounce { animation: gb-bob 2.8s ease-in-out infinite; }
+.gb-on .gb-motion-wink .gb-eye { animation: none; }
+.gb-on .gb-motion-wink .gb-eye-wink { animation: gb-wink 4s ease-in-out var(--bd, 1.6s) infinite; }
+.gb-on .gb-motion-wink.gb-wake .gb-eye-wink { animation: gb-wake 0.9s cubic-bezier(0.3, 1.4, 0.5, 1) 0.6s both, gb-wink 4s ease-in-out 3.2s infinite; }
+.gb-on .gb-motion-scan .gb-idle { animation: none; }
+.gb-on .gb-motion-scan .gb-glance { animation: gb-scan 3.4s ease-in-out infinite; }
+.gb-on .gb-motion-pulse .gb-head { animation: gb-pulse 3.2s ease-in-out infinite; }
 .gb-pan { transform: scale(1.04); }
 .gb-strike { transform: rotate(-4deg); }
 @media (prefers-reduced-motion: reduce) {
@@ -192,11 +259,12 @@ const breath: SlideTransition = {
 
 type MarkTone = 'ink' | 'white';
 
-/**
- * Official Grok Bot mark drawn from the brand SVG paths. `ink` is the light-canvas
- * version (dark head, white eyes); `white` is for silk panels. Eyes blink on a
- * loop, drift on an idle cycle, and optionally glance toward `look` after enter.
- */
+type MarkStyle = {
+  shape?: MarkShape;
+  color?: string;
+  motion?: MarkMotion;
+};
+
 function Mark({
   size,
   tone = 'ink',
@@ -204,6 +272,9 @@ function Mark({
   wake = false,
   idle = true,
   blinkDelay = 1.6,
+  shape = 'circle',
+  color,
+  motion = 'blink',
 }: {
   size: number;
   tone?: MarkTone;
@@ -211,9 +282,20 @@ function Mark({
   wake?: boolean;
   idle?: boolean;
   blinkDelay?: number;
+  shape?: MarkShape;
+  color?: string;
+  motion?: MarkMotion;
 }) {
-  const head = tone === 'ink' ? INK : '#ffffff';
-  const eye = tone === 'ink' ? '#ffffff' : INK;
+  const stylized = shape !== 'circle' || Boolean(color);
+  const head = color ?? (tone === 'ink' ? INK : '#ffffff');
+  const lightYellow = Boolean(color && color.toLowerCase() === BOT_PALETTE.yellow.toLowerCase());
+  const eye = color
+    ? lightYellow
+      ? BOT_PALETTE.black
+      : '#ffffff'
+    : tone === 'ink'
+      ? '#ffffff'
+      : INK;
   const eyeVars = { '--bd': `${blinkDelay}s` } as CSSProperties;
   const eyeVarsB = { '--bd': `${blinkDelay + 0.06}s` } as CSSProperties;
   const lookVars = {
@@ -221,20 +303,58 @@ function Mark({
     '--ly': `${look[1]}px`,
     transform: `translate(${look[0]}px, ${look[1]}px)`,
   } as CSSProperties;
+  const classes = [
+    wake ? 'gb-wake' : '',
+    motion !== 'blink' ? `gb-motion-${motion}` : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
+  const headPath = SHAPE_PATHS[shape] ?? HEAD_PATH;
+  const useIdle = idle && motion !== 'scan';
+
   return (
     <svg
-      className={wake ? 'gb-wake' : undefined}
+      className={classes || undefined}
       viewBox="0 0 228.541 228.541"
       width={size}
       height={size}
       aria-hidden="true"
       style={{ display: 'block', overflow: 'visible', flexShrink: 0 }}
     >
-      <path d={HEAD_PATH} fill={head} />
-      <g className={idle ? 'gb-idle' : undefined} style={{ '--ld': `${blinkDelay}s` } as CSSProperties}>
+      <path className="gb-head" d={headPath} fill={head} />
+      <g className={useIdle ? 'gb-idle' : undefined} style={{ '--ld': `${blinkDelay}s` } as CSSProperties}>
         <g className="gb-glance" style={lookVars}>
-          <path className="gb-eye" style={eyeVars} d={EYE_A_PATH} fill={eye} />
-          <path className="gb-eye" style={eyeVarsB} d={EYE_B_PATH} fill={eye} />
+          {stylized ? (
+            <>
+              <g transform="rotate(-38 82 112)">
+                <ellipse
+                  className={motion === 'wink' ? 'gb-eye gb-eye-wink' : 'gb-eye'}
+                  cx={82}
+                  cy={112}
+                  rx={20}
+                  ry={8}
+                  fill={eye}
+                  style={eyeVars}
+                />
+              </g>
+              <g transform="rotate(-38 148 102)">
+                <ellipse
+                  className="gb-eye"
+                  cx={148}
+                  cy={102}
+                  rx={20}
+                  ry={8}
+                  fill={eye}
+                  style={eyeVarsB}
+                />
+              </g>
+            </>
+          ) : (
+            <>
+              <path className={motion === 'wink' ? 'gb-eye gb-eye-wink' : 'gb-eye'} style={eyeVars} d={EYE_A_PATH} fill={eye} />
+              <path className="gb-eye" style={eyeVarsB} d={EYE_B_PATH} fill={eye} />
+            </>
+          )}
         </g>
       </g>
     </svg>
@@ -592,11 +712,13 @@ function FlowBot({
   title,
   sub,
   delay,
+  mark,
 }: {
   accent: AccentName;
   title: string;
   sub: string;
   delay: number;
+  mark?: MarkStyle;
 }) {
   return (
     <div className="gb-pop" style={{ ...d(delay), flex: 1, minWidth: 0, display: 'flex' }}>
@@ -615,7 +737,13 @@ function FlowBot({
             <span style={{ fontFamily: MONO, fontSize: 22, letterSpacing: '0.12em', color: INK }}>
               THE BOT
             </span>
-            <Mark size={52} blinkDelay={delay / 1000 + 1} />
+            <Mark
+              size={52}
+              shape={mark?.shape}
+              color={mark?.color}
+              motion={mark?.motion}
+              blinkDelay={delay / 1000 + 1}
+            />
           </div>
           <div
             style={{
@@ -646,6 +774,7 @@ function UseCase({
   bot,
   out,
   loop = false,
+  mark,
 }: {
   n: string;
   name: string;
@@ -655,6 +784,7 @@ function UseCase({
   bot: { title: string; sub: string };
   out: { title: string; sub: string };
   loop?: boolean;
+  mark?: MarkStyle;
 }) {
   return (
     <Canvas accent="orange">
@@ -671,7 +801,7 @@ function UseCase({
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <Arrow delay={700} />
           </div>
-          <FlowBot accent="orange" title={bot.title} sub={bot.sub} delay={560} />
+          <FlowBot accent="orange" title={bot.title} sub={bot.sub} delay={560} mark={mark} />
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <Arrow delay={1000} />
           </div>
@@ -1118,7 +1248,19 @@ const WhatIsGrokBot: Page = () => (
   </Canvas>
 );
 
-const BotAvatar = ({ name, delay }: { name: string; delay: number }) => (
+const BotAvatar = ({
+  name,
+  delay,
+  shape,
+  color,
+  motion,
+}: {
+  name: string;
+  delay: number;
+  shape?: MarkShape;
+  color?: string;
+  motion?: MarkMotion;
+}) => (
   <div
     className="gb-pop"
     style={{
@@ -1130,7 +1272,14 @@ const BotAvatar = ({ name, delay }: { name: string; delay: number }) => (
       width: 240,
     }}
   >
-    <Mark size={120} blinkDelay={delay / 1000 + 1.2} look={[6, -4]} />
+    <Mark
+      size={120}
+      shape={shape}
+      color={color}
+      motion={motion}
+      blinkDelay={delay / 1000 + 1.2}
+      look={[6, -4]}
+    />
     <div
       style={{
         fontFamily: 'var(--osd-font-display)',
@@ -1199,11 +1348,11 @@ const MeetTeammates: Page = () => (
         >
           ONE SHARED COMPUTER
         </div>
-        <BotAvatar name="Inbox Triage" delay={800} />
+        <BotAvatar name="Inbox Triage" delay={800} shape="squircle" color={BOT_PALETTE.blue} motion="blink" />
         <Arrow delay={1100} width={110} />
-        <BotAvatar name="Motion Studio" delay={950} />
+        <BotAvatar name="Motion Studio" delay={950} shape="blob" color={BOT_PALETTE.magenta} motion="bounce" />
         <Arrow delay={1300} width={110} />
-        <BotAvatar name="Community Ops" delay={1100} />
+        <BotAvatar name="Community Ops" delay={1100} shape="cloud" color={BOT_PALETTE.orange} motion="look" />
       </div>
     </div>
     <div
@@ -1345,7 +1494,7 @@ const MaturityCurve: Page = () => (
               color: 'var(--ac)',
             }}
           >
-            <Mark size={36} blinkDelay={0.6} look={[6, -4]} />
+            <Mark size={36} shape="capsule" color={BOT_PALETTE.teal} motion="blink" blinkDelay={0.6} look={[6, -4]} />
             Where Grok Bot pushes you
           </div>
           <CurveDot x={1000} y={200} accent />
@@ -1465,9 +1614,9 @@ const HowSolves: Page = () => (
           }}
         />
       </div>
-      <BotJob name="Inbox" job="Triage mail" delay={500} />
-      <BotJob name="Motion" job="Make the cut" delay={650} />
-      <BotJob name="Community" job="Run the event" delay={800} />
+      <BotJob name="Inbox" job="Triage mail" delay={500} shape="squircle" color={BOT_PALETTE.blue} motion="blink" />
+      <BotJob name="Motion" job="Make the cut" delay={650} shape="blob" color={BOT_PALETTE.magenta} motion="bounce" />
+      <BotJob name="Community" job="Run the event" delay={800} shape="cloud" color={BOT_PALETTE.orange} motion="look" />
     </div>
     <Lede delay={1000} maxWidth={1680} style={{ marginTop: 'auto' }}>
       They finish the work in the real tools. You review, correct, run again.
@@ -1475,7 +1624,21 @@ const HowSolves: Page = () => (
   </Canvas>
 );
 
-const BotJob = ({ name, job, delay }: { name: string; job: string; delay: number }) => (
+const BotJob = ({
+  name,
+  job,
+  delay,
+  shape,
+  color,
+  motion,
+}: {
+  name: string;
+  job: string;
+  delay: number;
+  shape?: MarkShape;
+  color?: string;
+  motion?: MarkMotion;
+}) => (
   <div
     className="gb-pop"
     style={{
@@ -1491,7 +1654,14 @@ const BotJob = ({ name, job, delay }: { name: string; job: string; delay: number
       flexDirection: 'column',
     }}
   >
-    <Mark size={84} blinkDelay={delay / 1000 + 1} look={[6, -4]} />
+    <Mark
+      size={84}
+      shape={shape}
+      color={color}
+      motion={motion}
+      blinkDelay={delay / 1000 + 1}
+      look={[6, -4]}
+    />
     <div style={{ marginTop: 'auto' }}>
       <div
         style={{
@@ -1599,6 +1769,7 @@ const InboxTriage: Page = () => (
     input={{ title: 'New mail', sub: 'Everything in the inbox' }}
     bot={{ title: 'Triage bot', sub: 'Flags what needs a human' }}
     out={{ title: 'I approve', sub: 'It does not send without me' }}
+    mark={{ shape: 'squircle', color: BOT_PALETTE.blue, motion: 'blink' }}
   />
 );
 InboxTriage.transition = breath;
@@ -1612,6 +1783,7 @@ const MotionStudio: Page = () => (
     input={{ title: 'The brief', sub: 'Plus brand constraints' }}
     bot={{ title: 'Motion bot', sub: 'Runs the pipeline on its computer' }}
     out={{ title: 'I review the cut', sub: 'Not an empty timeline' }}
+    mark={{ shape: 'blob', color: BOT_PALETTE.magenta, motion: 'bounce' }}
   />
 );
 
@@ -1624,6 +1796,7 @@ const CommunityOps: Page = () => (
     input={{ title: 'The event', sub: 'Guest lists and reminders' }}
     bot={{ title: 'Ops bot', sub: 'Day-of logistics' }}
     out={{ title: 'Same pattern', sub: 'Every meetup' }}
+    mark={{ shape: 'cloud', color: BOT_PALETTE.orange, motion: 'look' }}
   />
 );
 
@@ -1637,6 +1810,7 @@ const EnglishPractice: Page = () => (
     bot={{ title: 'Practice bot', sub: 'Corrects and rewrites. No fake scores' }}
     out={{ title: 'I try again', sub: 'Talk, feedback, repeat' }}
     loop
+    mark={{ shape: 'capsule', color: BOT_PALETTE.teal, motion: 'wink' }}
   />
 );
 
@@ -1649,6 +1823,7 @@ const OsintScout: Page = () => (
     input={{ title: 'A name or handle', sub: 'Or a company, or a link' }}
     bot={{ title: 'Scout bot', sub: 'Public sources only' }}
     out={{ title: 'A shortlist', sub: 'I verify before outreach' }}
+    mark={{ shape: 'hex', color: BOT_PALETTE.violet, motion: 'scan' }}
   />
 );
 
@@ -1660,6 +1835,16 @@ const StudentRoom: Page = () => (
     </H>
     <div style={{ display: 'flex', gap: 72, marginTop: 'auto', alignItems: 'flex-end' }}>
       <div style={{ width: 590, flexShrink: 0, paddingBottom: 6 }}>
+        <div className="gb-pop" style={{ ...d(200), marginBottom: 28 }}>
+          <Mark
+            size={72}
+            shape="teardrop"
+            color={BOT_PALETTE.green}
+            motion="pulse"
+            look={[6, -4]}
+            blinkDelay={1.4}
+          />
+        </div>
         <p
           className="gb-rise"
           style={{
