@@ -915,7 +915,7 @@ const AgendaRow = ({ n, text }: { n: string; text: string }) => (
 const AgendaPage: Page = () => (
   <Canvas>
     <Eyebrow>Agenda</Eyebrow>
-    <H size={104}>Four things tonight.</H>
+    <H size={104}>Four things today.</H>
     <div style={{ marginTop: 56 }}>
       <Steps>
         <Step>
@@ -928,7 +928,7 @@ const AgendaPage: Page = () => (
           <AgendaRow n="03" text="Five bots I actually run" />
         </Step>
         <Step>
-          <AgendaRow n="04" text="Live demo, then praktek together" />
+          <AgendaRow n="04" text="Live demo, then practice together" />
         </Step>
       </Steps>
     </div>
@@ -963,7 +963,7 @@ const WhatIsSpaceXAI: Page = () => (
       The company behind Grok and Grok Bot. Many of us still say xAI.
     </Lede>
     <Lede delay={850} size={42} style={{ marginTop: 12 }} color={MUTED}>
-      Remember the name. We use their stack tonight.
+      Remember the name. We use their stack today.
     </Lede>
   </Canvas>
 );
@@ -1078,7 +1078,7 @@ const WhatIsGrokBot: Page = () => (
     <Eyebrow>What is Grok Bot?</Eyebrow>
     <H size={112}>Grok Bot is the teammate.</H>
     <div style={{ display: 'flex', alignItems: 'center', marginTop: 72 }}>
-      <PartCard label="THE BRAIN" title="Grok" delay={300} />
+      <PartCard label="THE BRAIN" title="Any model" delay={300} />
       <Operator delay={450}>+</Operator>
       <PartCard label="THEIR OWN" title="Cloud computer" delay={450} />
       <Operator delay={600}>+</Operator>
@@ -1113,7 +1113,7 @@ const WhatIsGrokBot: Page = () => (
       </div>
     </div>
     <Lede delay={1000} style={{ marginTop: 'auto' }}>
-      Not another chat window that stops at a draft.
+      Model agnostic. Grok, Opus, or whatever fits. Not another chat that stops at a draft.
     </Lede>
   </Canvas>
 );
@@ -1620,10 +1620,10 @@ const CommunityOps: Page = () => (
     n="03"
     name="Community Ops"
     title="It keeps the runbook while I host."
-    line="Luma meetup ops for Cursor, Codex, and Grok Bot nights."
+    line="Luma meetup ops for Cursor, Codex, and Grok Bot meetups."
     input={{ title: 'The event', sub: 'Guest lists and reminders' }}
     bot={{ title: 'Ops bot', sub: 'Day-of logistics' }}
-    out={{ title: 'Same pattern', sub: 'Every meetup night' }}
+    out={{ title: 'Same pattern', sub: 'Every meetup' }}
   />
 );
 
@@ -1844,7 +1844,7 @@ const GettingStarted: Page = () => (
         >
           <img
             src={meetupQr}
-            alt="QR code to https://grok-bot-meetup.vercel.app/"
+            alt="QR code to https://grok-bot-meetup-talk.netlify.app/"
             style={{ width: 448, height: 448, display: 'block' }}
           />
         </div>
@@ -1861,7 +1861,7 @@ const GettingStarted: Page = () => (
             marginBottom: 56,
           }}
         >
-          grok-bot-meetup.vercel.app
+          grok-bot-meetup-talk.netlify.app
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
           <Step3 n="1" text="Open the meetup page" delay={600} />
@@ -1873,7 +1873,7 @@ const GettingStarted: Page = () => (
   </Canvas>
 );
 
-const PraktekRow = ({ n, text, delay }: { n: string; text: string; delay: number }) => (
+const PracticeRow = ({ n, text, delay }: { n: string; text: string; delay: number }) => (
   <div
     className="gb-rise"
     style={{
@@ -1916,9 +1916,9 @@ const PraktekRow = ({ n, text, delay }: { n: string; text: string; delay: number
   </div>
 );
 
-const Praktek: Page = () => (
+const Practice: Page = () => (
   <Canvas accent="orange">
-    <Eyebrow>Praktek</Eyebrow>
+    <Eyebrow>Practice</Eyebrow>
     <H size={112}>One bot. One job. Go.</H>
     <div style={{ display: 'flex', gap: 100, marginTop: 'auto', alignItems: 'flex-end' }}>
       <div style={{ position: 'relative', flex: 1 }}>
@@ -1934,9 +1934,9 @@ const Praktek: Page = () => (
             background: INK,
           }}
         />
-        <PraktekRow n="1" text="Install or open Grok Bot" delay={300} />
-        <PraktekRow n="2" text="Create one bot for one real job" delay={500} />
-        <PraktekRow n="3" text="Hand off a task. Review what comes back." delay={700} />
+        <PracticeRow n="1" text="Install or open Grok Bot" delay={300} />
+        <PracticeRow n="2" text="Create one bot for one real job" delay={500} />
+        <PracticeRow n="3" text="Hand off a task. Review what comes back." delay={700} />
       </div>
       <div className="gb-pop" style={{ ...d(400) }}>
         <Silk accent="orange" width={360} height={450} radius={180} pos="8% 30%">
@@ -2105,7 +2105,7 @@ const ThankYou: Page = () => (
       >
         Thank you.
       </h1>
-      <LinkRow label="Meetup" value="grok-bot-meetup.vercel.app" delay={400} />
+      <LinkRow label="Meetup" value="grok-bot-meetup-talk.netlify.app" delay={400} />
       <LinkRow label="Docs" value="docs.x.ai/grok-bot/overview" delay={520} />
       <div style={{ borderBottom: `2px solid ${INK}` }}>
         <LinkRow label="Find me" value="@F2aldi" delay={640} />
@@ -2122,7 +2122,7 @@ export const meta: SlideMeta = {
 
 export const notes: (string | undefined)[] = [
   `Open on the eye. Let it wake up. Pause one beat.
-"Tonight is about Grok Bot. AI teammates that finish the work, not just draft it."
+"Today is about Grok Bot. AI teammates that finish the work, not just draft it."
 Introduce yourself lightly, then move.`,
 
   `Keep this under a minute.
@@ -2130,7 +2130,7 @@ Introduce yourself lightly, then move.`,
 No CV dump.`,
 
   `Walk the four rows with the arrow key.
-Promise the live demo and praktek so people know when to open their laptops.`,
+Promise the live demo and practice so people know when to open their laptops.`,
 
   `Plain context.
 "SpaceXAI is the company behind Grok and Grok Bot. You may still say xAI. Same stack."
@@ -2140,7 +2140,7 @@ Do not over-explain company history.`,
 Land the last line: strong alone, stronger when it has hands. That sets up the next slide.`,
 
   `Read the equation left to right.
-"Grok, plus its own cloud computer, plus your apps, equals a teammate."
+"Any model, plus its own cloud computer, plus your apps, equals a teammate. Not locked to Grok. Opus, or whatever fits the job."
 Stress: not another chat window that stops at a draft.`,
 
   `"You message them like coworkers.
@@ -2172,7 +2172,7 @@ No invented metrics.`,
 Mention this is a bot you run for creative pipeline work.`,
 
   `Community Ops.
-"Luma ops for Cursor, Codex, and Grok Bot meetups. Guest list, reminders, day-of. Same pattern every night."`,
+"Luma ops for Cursor, Codex, and Grok Bot meetups. Guest list, reminders, day-of. Same pattern every meetup."`,
 
   `English practice.
 Keep it honest. No fake scores.
@@ -2195,7 +2195,7 @@ Say what you will hand off before you click.
 Keep the audience on the bot screen, not on the notes.`,
 
   `Point at the QR.
-"grok-bot-meetup.vercel.app. Open it, create one bot, pick one real job from this week."`,
+"grok-bot-meetup-talk.netlify.app. Open it, create one bot, pick one real job from this week."`,
 
   `Workshop mode.
 "Install or open. One bot. One job. Hand off. Review."
@@ -2229,7 +2229,7 @@ export default [
   StudentRoom,
   DemoBeat,
   GettingStarted,
-  Praktek,
+  Practice,
   QAPage,
   ThankYou,
 ] satisfies Page[];
