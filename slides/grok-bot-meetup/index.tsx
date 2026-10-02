@@ -86,22 +86,39 @@ const BOT_PALETTE = {
   gray: '#8A8A90',
 } as const;
 
-/** Picker-style heads in the same ~228.541 brand viewBox. */
+/** Official picker silhouettes in the ~228.541 brand viewBox (breathing room OK). */
 const SHAPE_PATHS: Record<MarkShape, string> = {
   circle: HEAD_PATH,
-  blob:
-    'M120 6C158 10 196 34 210 72C224 110 212 152 188 182C164 212 124 226 86 218C48 210 18 184 10 146C2 108 22 72 50 46C78 20 96 4 120 6Z',
-  squircle:
-    'M64 16H164.5C191 16 212.5 37.5 212.5 64V164.5C212.5 191 191 212.5 164.5 212.5H64C37.5 212.5 16 191 16 164.5V64C16 37.5 37.5 16 64 16Z',
+  // Official "pebble": soft irregular oval (~1.1:1), organic.
+  blob: 'M223.71 114.27L224.09 122.74L223.80 131.27L222.81 139.81L221.07 148.28L218.55 156.60L215.25 164.69L211.15 172.45L206.28 179.78L200.67 186.58L194.38 192.77L187.48 198.28L180.08 203.04L172.26 207.01L164.15 210.20L155.83 212.60L147.42 214.24L138.99 215.18L130.63 215.48L122.38 215.20L114.27 214.43L106.32 213.21L98.54 211.62L90.89 209.70L83.37 207.47L75.95 204.95L68.60 202.10L61.34 198.92L54.16 195.36L47.08 191.36L40.17 186.89L33.48 181.89L27.10 176.34L21.13 170.21L15.67 163.51L10.83 156.26L6.71 148.52L3.41 140.35L1.00 131.85L-0.46 123.12L-0.95 114.27L-0.46 105.42L0.98 96.69L3.32 88.17L6.51 79.96L10.46 72.13L15.08 64.74L20.28 57.82L25.97 51.40L32.08 45.47L38.52 40.04L45.25 35.08L52.23 30.58L59.41 26.53L66.78 22.92L74.32 19.75L82.03 17.04L89.90 14.80L97.91 13.06L106.05 11.86L114.27 11.23L122.55 11.22L130.82 11.84L139.05 13.13L147.15 15.10L155.07 17.75L162.74 21.06L170.09 25.00L177.08 29.55L183.66 34.65L189.79 40.26L195.45 46.32L200.62 52.79L205.30 59.60L209.48 66.73L213.16 74.13L216.34 81.77L219.00 89.63L221.14 97.68L222.72 105.91Z',
+  // Superellipse n=3.2, r=107 — heavily rounded square.
+  squircle: 'M221.27 114.27L220.95 139.33L219.98 152.80L218.37 163.66L216.10 172.97L213.19 181.14L209.61 188.38L205.37 194.78L200.43 200.43L194.78 205.37L188.38 209.61L181.14 213.19L172.97 216.10L163.66 218.37L152.80 219.98L139.33 220.95L114.27 221.27L89.21 220.95L75.74 219.98L64.88 218.37L55.57 216.10L47.40 213.19L40.17 209.61L33.76 205.37L28.11 200.43L23.17 194.78L18.93 188.38L15.35 181.14L12.44 172.97L10.17 163.66L8.56 152.80L7.59 139.33L7.27 114.27L7.59 89.21L8.56 75.74L10.17 64.88L12.44 55.57L15.35 47.40L18.93 40.17L23.17 33.76L28.11 28.11L33.76 23.17L40.17 18.93L47.40 15.35L55.57 12.44L64.88 10.17L75.74 8.56L89.21 7.59L114.27 7.27L139.33 7.59L152.80 8.56L163.66 10.17L172.97 12.44L181.14 15.35L188.38 18.93L194.78 23.17L200.43 28.11L205.37 33.76L209.61 40.17L213.19 47.40L216.10 55.57L218.37 64.88L219.98 75.74L220.95 89.21Z',
+  // Official "tablet" horizontal pill ~1.55:1.
   capsule:
-    'M60 42H168.5A72.27 72.27 0 0 1 168.5 186.54H60A72.27 72.27 0 0 1 60 42Z',
+    'M74.27 40.27L154.27 40.27C195.14 40.27 228.27 73.4 228.27 114.27C228.27 155.14 195.14 188.27 154.27 188.27L74.27 188.27C33.4 188.27 0.27 155.14 0.27 114.27C0.27 73.4 33.4 40.27 74.27 40.27Z',
+  // Official rounded triangle (wedge), base wider.
   wedge:
-    'M114.27 14C128 14 142 28 158 56L206 168C214 184 204 204 186 208H42.5C24.5 204 14.5 184 22.5 168L70.5 56C86.5 28 100.5 14 114.27 14Z',
-  hex: 'M114.27 12L204.5 64.5V164L114.27 216.5L24 164V64.5Z',
-  cloud:
-    'M52 150C30 150 14 132 14 110C14 90 28 74 48 70C52 42 74 22 102 22C124 22 142 34 150 54C156 48 166 46 176 46C196 46 212 62 212 82C212 88 210 92 208 96C218 104 224 116 224 132C224 154 206 170 184 170H64C56 170 52 162 52 154V150Z',
+    'M77.26 42.06Q114.27 -22.05 151.28 42.06L216.15 154.43Q253.17 218.53 179.14 218.53L49.4 218.53Q-24.62 218.53 12.39 154.43Z',
+  // Official vertical hex, soft corners, slightly tall.
+  hex: 'M217.73 153.04Q217.73 174 199.58 184.48L132.42 223.25Q114.27 233.73 96.12 223.25L28.96 184.48Q10.81 174 10.81 153.04L10.81 75.5Q10.81 54.54 28.96 44.06L96.12 5.29Q114.27 -5.19 132.42 5.29L199.58 44.06Q217.73 54.54 217.73 75.5Z',
+  // Official multi-lobe cloud (wider than tall).
+  cloud: 'M223.60 114.27L226.96 121.66L229.16 129.40L230.19 137.33L230.04 145.29L228.72 153.12L226.27 160.66L222.75 167.77L218.21 174.28L212.76 180.08L206.48 185.03L199.50 189.02L191.95 191.95L183.95 193.72L175.65 194.27L167.21 193.51L158.80 191.41L154.36 195.57L149.49 199.30L144.24 202.55L138.65 205.27L132.80 207.44L126.74 209.00L120.54 209.95L114.27 210.27L108.00 209.95L101.80 209.00L95.74 207.44L89.89 205.27L84.30 202.55L79.05 199.30L74.18 195.57L68.28 193.93L59.82 195.76L51.36 196.26L43.03 195.50L35.00 193.54L27.41 190.45L20.39 186.31L14.07 181.22L8.57 175.29L4.00 168.65L0.42 161.43L-2.08 153.77L-3.45 145.81L-3.67 137.73L-2.72 129.67L-0.60 121.80L2.67 114.27L7.05 107.24L12.48 100.87L18.90 95.30L26.25 90.68L28.28 85.08L28.52 78.75L29.41 72.42L30.97 66.18L33.18 60.09L36.03 54.24L39.49 48.69L43.53 43.53L48.10 38.82L53.15 34.61L58.61 30.97L64.42 27.92L70.50 25.51L76.78 23.76L83.18 22.68L89.62 22.27L96.02 22.54L102.31 23.45L108.42 24.99L114.27 27.10L119.81 29.76L124.98 32.90L129.75 36.46L134.94 37.13L141.02 35.45L147.31 34.50L153.71 34.29L160.13 34.85L166.46 36.17L172.61 38.25L178.48 41.06L183.98 44.56L189.03 48.71L193.54 53.44L197.45 58.69L200.69 64.37L203.23 70.40L205.01 76.68L206.02 83.12L206.25 89.62L206.95 95.83L213.55 101.20L219.11 107.40Z',
+  // Official teardrop: pointed top, round bottom, taller.
   teardrop:
-    'M114.27 10C150 48 198 98 198 148C198 194 160 220 114.27 220C68.5 220 30.5 194 30.5 148C30.5 98 78.5 48 114.27 10Z',
+    'M125.97 7.2Q114.27 -7.28 102.57 7.2L43.49 80.31C13.46 117.46 17.28 171.51 52.23 204.08C87.17 236.65 141.37 236.65 176.32 204.08C211.26 171.51 215.08 117.46 185.05 80.31Z',
+};
+
+/** Per-shape facial geometry: small inward slit eyes in the upper-middle face. */
+type FaceGeom = { cx: number; cy: number; gap: number; rx: number; ry: number; rot: number };
+const FACE: Record<MarkShape, FaceGeom> = {
+  circle: { cx: 114.27, cy: 96, gap: 54, rx: 12.5, ry: 5.0, rot: 32 },
+  blob: { cx: 114.27, cy: 100, gap: 52, rx: 12.0, ry: 4.8, rot: 30 },
+  squircle: { cx: 114.27, cy: 98, gap: 50, rx: 12.0, ry: 4.8, rot: 32 },
+  capsule: { cx: 114.27, cy: 114.27, gap: 48, rx: 11.5, ry: 4.6, rot: 28 },
+  wedge: { cx: 114.27, cy: 108, gap: 46, rx: 11.5, ry: 4.6, rot: 34 },
+  hex: { cx: 114.27, cy: 102, gap: 48, rx: 11.5, ry: 4.6, rot: 30 },
+  cloud: { cx: 114.27, cy: 120, gap: 50, rx: 12.0, ry: 4.8, rot: 28 },
+  teardrop: { cx: 114.27, cy: 122, gap: 46, rx: 11.5, ry: 4.6, rot: 34 },
 };
 
 const CSS = `
@@ -111,9 +128,14 @@ const CSS = `
 @font-face { font-family: "Universal Sans Text"; src: url(${usText550}) format("woff2"); font-weight: 550 900; font-display: swap; }
 @font-face { font-family: "Geist Mono"; src: url(${geistMono}) format("woff2"); font-weight: 100 900; font-display: swap; }
 
-@keyframes gb-rise { from { opacity: 0; transform: translateY(22px); } }
+@keyframes gb-rise { from { opacity: 0; transform: translateY(32px); } }
+@keyframes gb-rise-late { from { opacity: 0; transform: translateY(28px) scale(0.985); } }
 @keyframes gb-fade { from { opacity: 0; } }
-@keyframes gb-pop { 0% { opacity: 0; transform: scale(0.84); } 65% { opacity: 1; transform: scale(1.025); } 100% { opacity: 1; transform: scale(1); } }
+@keyframes gb-pop {
+  0% { opacity: 0; transform: scale(0.82); }
+  60% { opacity: 1; transform: scale(1.04); }
+  100% { opacity: 1; transform: scale(1); }
+}
 @keyframes gb-draw { from { stroke-dashoffset: var(--len, 1); } to { stroke-dashoffset: 0; } }
 @keyframes gb-wipe { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
 @keyframes gb-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
@@ -134,10 +156,10 @@ const CSS = `
   100% { transform: scaleY(1); }
 }
 @keyframes gb-look {
-  0%, 12% { transform: translate(0, 0); }
-  20%, 38% { transform: translate(7px, -5px); }
-  48%, 64% { transform: translate(-6px, 4px); }
-  74%, 100% { transform: translate(0, 0); }
+  0%, 14% { transform: translate(0, 0); }
+  24%, 40% { transform: translate(6px, -4px); }
+  52%, 68% { transform: translate(-5px, 3px); }
+  80%, 100% { transform: translate(0, 0); }
 }
 @keyframes gb-glance {
   0%, 25% { transform: translate(0, 0); }
@@ -149,7 +171,7 @@ const CSS = `
 }
 @keyframes gb-bob {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-14px); }
+  50% { transform: translateY(-10px); }
 }
 @keyframes gb-look-wide {
   0%, 10% { transform: translate(0, 0); }
@@ -163,20 +185,30 @@ const CSS = `
 }
 @keyframes gb-scan {
   0%, 100% { transform: translate(0, 0); }
-  30% { transform: translate(11px, 0); }
-  70% { transform: translate(-11px, 0); }
+  30% { transform: translate(10px, -1px); }
+  70% { transform: translate(-10px, 1px); }
 }
 @keyframes gb-pulse {
   0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.055); }
+  50% { transform: scale(1.04); }
+}
+@keyframes gb-orbit {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes gb-orbit-rev {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
 }
 @keyframes gb-strike { from { transform: scaleX(0) rotate(-4deg); } to { transform: scaleX(1) rotate(-4deg); } }
 
 .gb-eye { transform-box: fill-box; transform-origin: center; }
 .gb-head { transform-box: fill-box; transform-origin: center; }
+.gb-orbit-spin { transform-origin: 114.2705px 114.2705px; }
 .gb-on .gb-rise { animation: gb-rise 0.75s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0ms) both; }
+.gb-on .gb-rise-late { animation: gb-rise-late 0.85s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0ms) both; }
 .gb-on .gb-fade { animation: gb-fade 0.6s ${EASE_OUT} var(--d, 0ms) both; }
-.gb-on .gb-pop { animation: gb-pop 0.85s cubic-bezier(0.2, 0.9, 0.3, 1) var(--d, 0ms) both; }
+.gb-on .gb-pop { animation: gb-pop 0.9s cubic-bezier(0.2, 0.9, 0.3, 1) var(--d, 0ms) both; }
 .gb-on .gb-draw { animation: gb-draw 0.9s cubic-bezier(0.4, 0, 0.2, 1) var(--d, 0ms) both; }
 .gb-on .gb-wipe { animation: gb-wipe 1s cubic-bezier(0.7, 0, 0.2, 1) var(--d, 0ms) both; }
 .gb-on .gb-grow { transform-origin: left center; animation: gb-grow 0.9s cubic-bezier(0.4, 0, 0.2, 1) var(--d, 0ms) both; }
@@ -184,18 +216,20 @@ const CSS = `
 .gb-on .gb-strike { transform-origin: left center; animation: gb-strike 0.6s cubic-bezier(0.4, 0, 0.2, 1) var(--d, 0ms) both; }
 .gb-on .gb-pan { animation: gb-pan 22s ease-in-out infinite alternate; }
 .gb-on .gb-float { animation: gb-float 6s ease-in-out infinite; }
-.gb-on .gb-idle { animation: gb-look 10s ease-in-out var(--ld, 1.2s) infinite; }
+.gb-on .gb-idle { animation: gb-look 11s ease-in-out var(--ld, 1.2s) infinite; }
 .gb-on .gb-glance { animation: gb-glance 2.4s cubic-bezier(0.3, 0, 0.2, 1) 0.2s both; }
 .gb-on .gb-eye { animation: gb-blink 5.6s ease-in-out var(--bd, 1.6s) infinite; }
 .gb-on .gb-wake .gb-eye { animation: gb-wake 0.9s cubic-bezier(0.3, 1.4, 0.5, 1) 0.6s both, gb-blink 5.6s ease-in-out 3.2s infinite; }
 .gb-on .gb-motion-look .gb-idle { animation: gb-look-wide 7.5s ease-in-out var(--ld, 1s) infinite; }
-.gb-on .gb-motion-bounce { animation: gb-bob 2.8s ease-in-out infinite; }
+.gb-on .gb-motion-bounce { animation: gb-bob 2.6s ease-in-out infinite; }
 .gb-on .gb-motion-wink .gb-eye { animation: none; }
 .gb-on .gb-motion-wink .gb-eye-wink { animation: gb-wink 4s ease-in-out var(--bd, 1.6s) infinite; }
 .gb-on .gb-motion-wink.gb-wake .gb-eye-wink { animation: gb-wake 0.9s cubic-bezier(0.3, 1.4, 0.5, 1) 0.6s both, gb-wink 4s ease-in-out 3.2s infinite; }
 .gb-on .gb-motion-scan .gb-idle { animation: none; }
-.gb-on .gb-motion-scan .gb-glance { animation: gb-scan 3.4s ease-in-out infinite; }
-.gb-on .gb-motion-pulse .gb-head { animation: gb-pulse 3.2s ease-in-out infinite; }
+.gb-on .gb-motion-scan .gb-glance { animation: gb-scan 3.6s ease-in-out infinite; }
+.gb-on .gb-motion-pulse .gb-head { animation: gb-pulse 3.4s ease-in-out infinite; }
+.gb-on .gb-orbit-a { animation: gb-orbit 9s linear infinite; }
+.gb-on .gb-orbit-b { animation: gb-orbit-rev 13s linear infinite; }
 .gb-pan { transform: scale(1.04); }
 .gb-strike { transform: rotate(-4deg); }
 @media (prefers-reduced-motion: reduce) {
@@ -217,42 +251,49 @@ if (typeof document !== 'undefined') {
 const d = (ms: number): CSSProperties => ({ '--d': `${ms}ms` }) as CSSProperties;
 
 export const transition: SlideTransition = {
-  duration: 260,
-  exit: { duration: 260, easing: EASE_IN, keyframes: HOLD },
+  duration: 340,
+  exit: { duration: 280, easing: EASE_IN, keyframes: HOLD },
   enter: {
-    duration: 260,
+    duration: 340,
     easing: EASE_OUT,
     keyframes: [
-      { opacity: 0, transform: 'translateY(6px)' },
-      { opacity: 1, transform: 'translateY(0)' },
+      { opacity: 0, transform: 'translateY(16px) scale(0.98)' },
+      { opacity: 1, transform: 'translateY(0) scale(1)' },
     ],
   },
 };
 
 const settle: SlideTransition = {
-  duration: 280,
-  exit: { duration: 280, easing: EASE_IN, keyframes: HOLD },
+  duration: 360,
+  exit: {
+    duration: 240,
+    easing: EASE_IN,
+    keyframes: [
+      { opacity: 1, transform: 'translateY(0)', filter: 'blur(0)' },
+      { opacity: 0, transform: 'translateY(-10px)', filter: 'blur(6px)' },
+    ],
+  },
   enter: {
-    duration: 280,
+    duration: 360,
     easing: EASE_OUT,
     keyframes: [
-      { opacity: 0, transform: 'translateY(12px)', filter: 'blur(4px)' },
+      { opacity: 0, transform: 'translateY(18px)', filter: 'blur(8px)' },
       { opacity: 1, transform: 'translateY(0)', filter: 'blur(0)' },
     ],
   },
 };
 
 const breath: SlideTransition = {
-  duration: 460,
+  duration: 520,
   throughBackground: true,
-  exit: { duration: 180, easing: EASE_IN, keyframes: [{ opacity: 1 }, { opacity: 0 }] },
+  exit: { duration: 200, easing: EASE_IN, keyframes: [{ opacity: 1 }, { opacity: 0 }] },
   enter: {
-    duration: 240,
-    delay: 300,
+    duration: 280,
+    delay: 280,
     easing: EASE_OUT,
     keyframes: [
-      { opacity: 0, transform: 'translateY(8px)' },
-      { opacity: 1, transform: 'translateY(0)' },
+      { opacity: 0, transform: 'translateY(14px) scale(0.985)' },
+      { opacity: 1, transform: 'translateY(0) scale(1)' },
     ],
   },
 };
@@ -275,6 +316,7 @@ function Mark({
   shape = 'circle',
   color,
   motion = 'blink',
+  orbit = false,
 }: {
   size: number;
   tone?: MarkTone;
@@ -285,6 +327,8 @@ function Mark({
   shape?: MarkShape;
   color?: string;
   motion?: MarkMotion;
+  /** Soft colorful orbital trails (Working/Done energy). */
+  orbit?: boolean;
 }) {
   const stylized = shape !== 'circle' || Boolean(color);
   const head = color ?? (tone === 'ink' ? INK : '#ffffff');
@@ -303,14 +347,25 @@ function Mark({
     '--ly': `${look[1]}px`,
     transform: `translate(${look[0]}px, ${look[1]}px)`,
   } as CSSProperties;
+  const showOrbit = orbit || motion === 'bounce';
   const classes = [
     wake ? 'gb-wake' : '',
     motion !== 'blink' ? `gb-motion-${motion}` : '',
   ]
     .filter(Boolean)
     .join(' ');
-  const headPath = SHAPE_PATHS[shape] ?? HEAD_PATH;
+  const headPath =
+    stylized && shape === 'circle'
+      ? 'M228.27 114.27C228.27 177.2 177.2 228.27 114.27 228.27C51.34 228.27 0.27 177.2 0.27 114.27C0.27 51.34 51.34 0.27 114.27 0.27C177.2 0.27 228.27 51.34 228.27 114.27Z'
+      : (SHAPE_PATHS[shape] ?? HEAD_PATH);
   const useIdle = idle && motion !== 'scan';
+  const face = FACE[shape] ?? FACE.circle;
+  const left = { cx: face.cx - face.gap / 2, cy: face.cy };
+  const right = { cx: face.cx + face.gap / 2, cy: face.cy };
+  const trailA = color ?? ACCENTS.magenta.solid;
+  const trailB = color === BOT_PALETTE.orange || color === BOT_PALETTE.magenta
+    ? BOT_PALETTE.blue
+    : ACCENTS.orange.solid;
 
   return (
     <svg
@@ -321,29 +376,61 @@ function Mark({
       aria-hidden="true"
       style={{ display: 'block', overflow: 'visible', flexShrink: 0 }}
     >
+      {showOrbit ? (
+        <g opacity={0.55}>
+          <g className="gb-orbit-spin gb-orbit-a">
+            <ellipse
+              cx={114.27}
+              cy={114.27}
+              rx={118}
+              ry={104}
+              fill="none"
+              stroke={trailA}
+              strokeWidth={5.5}
+              strokeLinecap="round"
+              strokeDasharray="36 220"
+              opacity={0.55}
+            />
+          </g>
+          <g className="gb-orbit-spin gb-orbit-b">
+            <ellipse
+              cx={114.27}
+              cy={114.27}
+              rx={108}
+              ry={120}
+              fill="none"
+              stroke={trailB}
+              strokeWidth={4}
+              strokeLinecap="round"
+              strokeDasharray="28 200"
+              opacity={0.4}
+            />
+          </g>
+        </g>
+      ) : null}
       <path className="gb-head" d={headPath} fill={head} />
       <g className={useIdle ? 'gb-idle' : undefined} style={{ '--ld': `${blinkDelay}s` } as CSSProperties}>
         <g className="gb-glance" style={lookVars}>
           {stylized ? (
             <>
-              <g transform="rotate(-38 82 112)">
+              <g transform={`rotate(${face.rot} ${left.cx} ${left.cy})`}>
                 <ellipse
                   className={motion === 'wink' ? 'gb-eye gb-eye-wink' : 'gb-eye'}
-                  cx={82}
-                  cy={112}
-                  rx={20}
-                  ry={8}
+                  cx={left.cx}
+                  cy={left.cy}
+                  rx={face.rx}
+                  ry={face.ry}
                   fill={eye}
                   style={eyeVars}
                 />
               </g>
-              <g transform="rotate(-38 148 102)">
+              <g transform={`rotate(${-face.rot} ${right.cx} ${right.cy})`}>
                 <ellipse
                   className="gb-eye"
-                  cx={148}
-                  cy={102}
-                  rx={20}
-                  ry={8}
+                  cx={right.cx}
+                  cy={right.cy}
+                  rx={face.rx}
+                  ry={face.ry}
                   fill={eye}
                   style={eyeVarsB}
                 />
@@ -797,7 +884,7 @@ function UseCase({
       <Lede>{line}</Lede>
       <div style={{ marginTop: 'auto' }}>
         <div style={{ display: 'flex', alignItems: 'stretch' }}>
-          <FlowCard label="IN" title={input.title} sub={input.sub} delay={380} />
+          <FlowCard label="IN" title={input.title} sub={input.sub} delay={400} />
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <Arrow delay={700} />
           </div>
@@ -912,7 +999,7 @@ const TitlePage: Page = () => (
             justifyContent: 'center',
           }}
         >
-          <Mark size={430} tone="white" wake look={[7, -5]} />
+          <Mark size={430} tone="white" wake orbit look={[7, -5]} />
         </div>
       </Silk>
     </div>
@@ -1001,9 +1088,9 @@ const WhoIAm: Page = () => (
             Ambassador
           </>
         }
-        delay={500}
+        delay={560}
       />
-      <FactCol label="Based in" value="Bekasi / Jakarta" delay={620} />
+      <FactCol label="Based in" value="Bekasi / Jakarta" delay={720} />
     </div>
   </Canvas>
 );
@@ -1348,17 +1435,17 @@ const MeetTeammates: Page = () => (
         >
           ONE SHARED COMPUTER
         </div>
-        <BotAvatar name="Inbox Triage" delay={800} shape="squircle" color={BOT_PALETTE.blue} motion="blink" />
+        <BotAvatar name="Inbox Triage" delay={720} shape="squircle" color={BOT_PALETTE.blue} motion="blink" />
         <Arrow delay={1100} width={110} />
-        <BotAvatar name="Motion Studio" delay={950} shape="blob" color={BOT_PALETTE.magenta} motion="bounce" />
+        <BotAvatar name="Motion Studio" delay={980} shape="blob" color={BOT_PALETTE.magenta} motion="bounce" />
         <Arrow delay={1300} width={110} />
-        <BotAvatar name="Community Ops" delay={1100} shape="cloud" color={BOT_PALETTE.orange} motion="look" />
+        <BotAvatar name="Community Ops" delay={1240} shape="cloud" color={BOT_PALETTE.orange} motion="look" />
       </div>
     </div>
     <div
       className="gb-rise"
       style={{
-        ...d(1400),
+        ...d(1600),
         marginTop: 'auto',
         display: 'flex',
         gap: 70,
@@ -1614,9 +1701,9 @@ const HowSolves: Page = () => (
           }}
         />
       </div>
-      <BotJob name="Inbox" job="Triage mail" delay={500} shape="squircle" color={BOT_PALETTE.blue} motion="blink" />
-      <BotJob name="Motion" job="Make the cut" delay={650} shape="blob" color={BOT_PALETTE.magenta} motion="bounce" />
-      <BotJob name="Community" job="Run the event" delay={800} shape="cloud" color={BOT_PALETTE.orange} motion="look" />
+      <BotJob name="Inbox" job="Triage mail" delay={480} shape="squircle" color={BOT_PALETTE.blue} motion="blink" />
+      <BotJob name="Motion" job="Make the cut" delay={720} shape="blob" color={BOT_PALETTE.magenta} motion="bounce" />
+      <BotJob name="Community" job="Run the event" delay={960} shape="cloud" color={BOT_PALETTE.orange} motion="look" />
     </div>
     <Lede delay={1000} maxWidth={1680} style={{ marginTop: 'auto' }}>
       They finish the work in the real tools. You review, correct, run again.
@@ -1945,7 +2032,7 @@ const DemoBeat: Page = () => (
           className="gb-float"
           style={{ position: 'absolute', right: 150, top: 230 }}
         >
-          <Mark size={460} tone="white" wake look={[-7, 5]} />
+          <Mark size={460} tone="white" wake orbit look={[-7, 5]} />
         </div>
       </Silk>
     </div>
@@ -2259,7 +2346,7 @@ const ThankYou: Page = () => (
             justifyContent: 'center',
           }}
         >
-          <Mark size={360} tone="white" wake look={[8, -4]} />
+          <Mark size={360} tone="white" wake orbit look={[8, -4]} />
         </div>
       </Silk>
     </div>
